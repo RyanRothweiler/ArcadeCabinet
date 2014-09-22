@@ -29,6 +29,6 @@ public class God_SCR : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(Input.touchCount);
+
     }
 }

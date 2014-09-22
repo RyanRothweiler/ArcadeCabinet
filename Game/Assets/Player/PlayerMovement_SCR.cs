@@ -11,6 +11,10 @@ public class PlayerMovement_SCR : MonoBehaviour
     /* Privates */
     private God_SCR god;
 
+	private Vector3 touchOffset = Vector3.zero;
+	public int lookTouchId = 1000;
+	public int moveTouchId = 1000;
+
 	// Use this for initialization
 	void Start () 
     {
@@ -25,6 +29,14 @@ public class PlayerMovement_SCR : MonoBehaviour
         CheckMovement();
 
         this.GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+		// Resetting when nothing touching
+		if (Input.touchCount == 0)
+		{
+			touchOffset = Vector3.zero;
+			lookTouchId = 1000;
+			moveTouchId = 1000;
+		}
 	}
 
     // Points the player at the mouse or touch
@@ -41,7 +53,12 @@ public class PlayerMovement_SCR : MonoBehaviour
         // Point at touch
         if (god.platform == "Ios" && Input.touchCount > 0)
         {
-            Vector3 worldMousePos = Camera.main.ScreenPointToRay(new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, 0)).GetPoint(0);
+			// Init touch id
+			if (lookTouchId == 1000)
+			{
+				lookTouchId = Input.GetTouch(0).fingerId;
+			}
+			Vector3 worldMousePos = Camera.main.ScreenPointToRay(new Vector3(Input.GetTouch(Input.touchCount - 1).position.x, Input.GetTouch(Input.touchCount - 1).position.y, 0)).GetPoint(0);
             worldMousePos.z = 0;
             objToPoint.transform.LookAt(worldMousePos);
         }
@@ -58,9 +75,23 @@ public class PlayerMovement_SCR : MonoBehaviour
         }
 
         // Move with touch
-        if (god.platform == "Ios" && Input.touchCount > 1)
-        {
+        if (god.platform == "Ios" && Input.touchCount > 0)
+		{
+			// Get world position
+			Vector3 worldMousePos = Camera.main.ScreenPointToRay(Input.GetTouch(Input.touchCount - 1).position).GetPoint(0);
+			worldMousePos.z = 0;
 
+			if (Vector3.Distance(this.transform.position, worldMousePos) < 2)
+			{
+				// Init touch offset
+				if (touchOffset == Vector3.zero)
+				{
+					touchOffset = this.transform.position - worldMousePos;
+				}
+
+				// Move with touch
+				this.transform.position = worldMousePos + touchOffset;
+			}
         }
     }
 }
