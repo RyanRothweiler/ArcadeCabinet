@@ -8,13 +8,16 @@ public class PlayerTouchControls_SCR : MonoBehaviour
 
 	
 	/* Privates */
-    private int lookingTouchId = 1000;
-    private int movingTouchId = 1000;
+	private int lookingTouchId = 1000;
+	private int movingTouchId = 1000;
     private Vector3 touchOffset = Vector3.zero;
+
+	private PlayerShooting_SCR pShooting;
     
 	
 	void Start () 
 	{
+		pShooting = this.GetComponent<PlayerShooting_SCR>();
 	}
 	
 	void Update () 
@@ -32,12 +35,20 @@ public class PlayerTouchControls_SCR : MonoBehaviour
 
             SetTouchIds(touch, worldMousePos);
             CheckSetTouchIds(touch, worldMousePos);
+
+			// Touch Shooting
+			if (Input.touchCount == 3)
+			{
+				pShooting.Shoot(worldMousePos);
+			}
         }
 
         // Reset touches
         if (Input.touchCount == 0)
         {
             touchOffset = Vector3.zero;
+			lookingTouchId = 1000;
+			movingTouchId = 1000;
         }
     }
 
@@ -63,12 +74,14 @@ public class PlayerTouchControls_SCR : MonoBehaviour
         if (movingTouchId == 1000 && lookingTouchId != touch.fingerId)
         {
             movingTouchId = touch.fingerId;
+			return;
         }
 
         // New looking touch
         if (lookingTouchId == 1000 && movingTouchId != touch.fingerId)
         {
             lookingTouchId = touch.fingerId;
+			return;
         }
     }
 

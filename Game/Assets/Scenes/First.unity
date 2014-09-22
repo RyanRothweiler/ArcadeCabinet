@@ -469,4 +469,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc482dcd1f430b42a984f95a13c5871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  platform: 
+  platform: Ios

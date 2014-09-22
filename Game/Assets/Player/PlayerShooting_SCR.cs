@@ -7,13 +7,13 @@ public class PlayerShooting_SCR : MonoBehaviour
     public GameObject bulletPreFab;
 
     /* Privates */
-    private God_SCR god;
+    //private God_SCR god;
 
 	// Use this for initialization
 	void Start () 
     {
         // Find god
-        god = GameObject.Find("God").GetComponent<God_SCR>();
+        //god = GameObject.Find("God").GetComponent<God_SCR>();
 	}
 	
 	// Update is called once per frame
@@ -21,20 +21,16 @@ public class PlayerShooting_SCR : MonoBehaviour
     {
 	    if (Input.GetMouseButtonDown(0))
         {
-            Shoot();
+			Vector3 worldMousePos = Camera.main.ScreenPointToRay(Input.mousePosition).GetPoint(0);
+			worldMousePos.z = 0;
+            Shoot(worldMousePos);
         }
 	}
 
     // Shoot the gun
-    void Shoot()
+    public void Shoot(Vector3 shootAt)
     {
-        if (god.platform == "Editor")
-        {
-            GameObject obj = GameObject.Instantiate(bulletPreFab, this.transform.position, Quaternion.identity) as GameObject;
-
-            Vector3 worldMousePos = Camera.main.ScreenPointToRay(Input.mousePosition).GetPoint(0);
-            worldMousePos.z = 0;
-            obj.transform.LookAt(worldMousePos);
-        }
+        GameObject obj = GameObject.Instantiate(bulletPreFab, this.transform.position, Quaternion.identity) as GameObject;
+		obj.transform.LookAt(shootAt);
     }
 }
