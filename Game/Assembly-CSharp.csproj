@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{5FE0C662-E231-069C-31A7-B21B7857A640}</ProjectGuid>
+	<ProjectGuid>{DDFBC18F-9396-3137-9CFE-DEB2CDB74636}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -51,6 +51,7 @@
      <Compile Include="Assets\God\God_SCR.cs" />
      <Compile Include="Assets\Player\PlayerMovement_SCR.cs" />
      <Compile Include="Assets\Player\PlayerShooting_SCR.cs" />
+     <Compile Include="Assets\Player\PlayerTouchMovement_SCR.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

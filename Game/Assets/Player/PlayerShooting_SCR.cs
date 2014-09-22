@@ -31,7 +31,10 @@ public class PlayerShooting_SCR : MonoBehaviour
         if (god.platform == "Editor")
         {
             GameObject obj = GameObject.Instantiate(bulletPreFab, this.transform.position, Quaternion.identity) as GameObject;
-            GameObject.Find("Player").GetComponent<PlayerMovement_SCR>().PointAtInput(obj);
+
+            Vector3 worldMousePos = Camera.main.ScreenPointToRay(Input.mousePosition).GetPoint(0);
+            worldMousePos.z = 0;
+            obj.transform.LookAt(worldMousePos);
         }
     }
 }
