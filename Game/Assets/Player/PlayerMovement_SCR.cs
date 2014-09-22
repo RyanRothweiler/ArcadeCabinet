@@ -10,13 +10,13 @@ public class PlayerMovement_SCR : MonoBehaviour
 
     /* Privates */
     private God_SCR god;
-    private PlayerTouchMovement_SCR pTouchMovement;
+    private PlayerTouchControls_SCR pTouchMovement;
 
 	// Use this for initialization
 	void Start () 
     {
         god = GameObject.Find("God").GetComponent<God_SCR>();
-        pTouchMovement = this.GetComponent<PlayerTouchMovement_SCR>();
+        pTouchMovement = this.GetComponent<PlayerTouchControls_SCR>();
 	}
 	
 	// Update is called once per frame
