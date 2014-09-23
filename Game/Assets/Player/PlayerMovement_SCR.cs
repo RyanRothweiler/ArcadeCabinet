@@ -11,17 +11,33 @@ public class PlayerMovement_SCR : MonoBehaviour
     /* Privates */
     private God_SCR god;
     private PlayerTouchControls_SCR pTouchMovement;
+    private PlayerShooting_SCR pShooting;
+
+    private float maxMovementSpeed;
 
 	// Use this for initialization
 	void Start () 
     {
         god = GameObject.Find("God").GetComponent<God_SCR>();
         pTouchMovement = this.GetComponent<PlayerTouchControls_SCR>();
+        pShooting = this.GetComponent<PlayerShooting_SCR>();
+
+        maxMovementSpeed = movementSpeed;
 	}
 	
 	// Update is called once per frame
 	void Update () 
     {
+        // Slower when aiming
+        if (pShooting.aiming)
+        {
+            movementSpeed = maxMovementSpeed / 2.5f;
+        }
+        else
+        {
+            movementSpeed = maxMovementSpeed;
+        }
+
         if (god.platform == "Editor")
         {
             PointAtMouse();

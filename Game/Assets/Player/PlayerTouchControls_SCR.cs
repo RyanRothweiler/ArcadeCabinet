@@ -22,6 +22,7 @@ public class PlayerTouchControls_SCR : MonoBehaviour
 	
 	void Update () 
 	{
+
 	}
 
     // Called once per frame is using these controls
@@ -39,7 +40,7 @@ public class PlayerTouchControls_SCR : MonoBehaviour
 			// Touch Shooting
 			if (Input.touchCount == 3)
 			{
-				pShooting.Shoot(worldMousePos);
+				pShooting.equippedGun.Shoot(worldMousePos);
 			}
         }
 

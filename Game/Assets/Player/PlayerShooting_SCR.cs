@@ -5,32 +5,43 @@ public class PlayerShooting_SCR : MonoBehaviour
 {
     /* Publics */
     public GameObject bulletPreFab;
+    public bool aiming;
+    public Gun_SCR equippedGun;
 
     /* Privates */
-    //private God_SCR god;
+    private GameObject aimer;
 
 	// Use this for initialization
 	void Start () 
     {
-        // Find god
-        //god = GameObject.Find("God").GetComponent<God_SCR>();
+        aimer = this.transform.FindChild("Aimer").gameObject;
 	}
 	
 	// Update is called once per frame
 	void Update () 
     {
-	    if (Input.GetMouseButtonDown(0))
+        // Shooting
+	    if (Input.GetMouseButton(0) && aiming)
         {
 			Vector3 worldMousePos = Camera.main.ScreenPointToRay(Input.mousePosition).GetPoint(0);
 			worldMousePos.z = 0;
-            Shoot(worldMousePos);
+            equippedGun.Shoot(worldMousePos);
+        }
+
+        // Aiming
+        if (Input.GetMouseButton(1))
+        {
+            Vector3 worldMousePos = Camera.main.ScreenPointToRay(Input.mousePosition).GetPoint(0);
+            worldMousePos.z = 0;
+            aimer.transform.position = worldMousePos;
+
+            aiming = true;
+            aimer.SetActive(true);
+        }
+        else
+        {
+            aiming = false;
+            aimer.SetActive(false);
         }
 	}
-
-    // Shoot the gun
-    public void Shoot(Vector3 shootAt)
-    {
-        GameObject obj = GameObject.Instantiate(bulletPreFab, this.transform.position, Quaternion.identity) as GameObject;
-		obj.transform.LookAt(shootAt);
-    }
 }
