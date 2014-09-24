@@ -10,6 +10,12 @@ public class Gun_SCR : MonoBehaviour
     public float spread;
     public bool automatic;
     public float timeBetweenShots;
+    public float knockBack;
+
+
+    public int clipSize;
+    public int bulletsInClip;
+    public float reloadTime;
 
 
 	/* Privates */
@@ -42,6 +48,9 @@ public class Gun_SCR : MonoBehaviour
             Vector3 newDirection = new Vector3(shootAt.x + Random.RandomRange(-spread, spread), shootAt.y + Random.RandomRange(-spread, spread), 0);
             obj.transform.LookAt(newDirection);
 
+            // Knock Back
+            this.transform.parent.position = this.transform.position + (this.transform.parent.forward * -1 * knockBack);
+
             shootWaitCanShoot = false;
             StartCoroutine(ResetShootWait());
         }
@@ -54,6 +63,9 @@ public class Gun_SCR : MonoBehaviour
             // Add spread
             Vector3 newDirection = new Vector3(shootAt.x + Random.RandomRange(-spread, spread), shootAt.y + Random.RandomRange(-spread, spread), 0);
             obj.transform.LookAt(newDirection);
+
+            // Knock Back
+            this.transform.parent.position = this.transform.position + (this.transform.parent.forward * -1 * knockBack);
 
             triggerUp = false;
         }

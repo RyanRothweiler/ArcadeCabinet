@@ -4,7 +4,6 @@ using System.Collections;
 public class PlayerShooting_SCR : MonoBehaviour 
 {
     /* Publics */
-    public GameObject bulletPreFab;
     public bool aiming;
     public Gun_SCR equippedGun;
 

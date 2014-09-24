@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BulletLife_SCR : MonoBehaviour 
+public class ParticleLife_SCR : MonoBehaviour 
 {
 
 	/* Publics */

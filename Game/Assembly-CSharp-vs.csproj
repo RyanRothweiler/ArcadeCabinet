@@ -49,8 +49,8 @@
      <Compile Include="Assets\Camera\CameraPlayerFollow_SCR.cs" />
      <Compile Include="Assets\Camera\FocalPoint_SCR.cs" />
      <Compile Include="Assets\God\God_SCR.cs" />
-     <Compile Include="Assets\Gun\Bullet\BulletLife_SCR.cs" />
      <Compile Include="Assets\Gun\Bullet\Bullet_SCR.cs" />
+     <Compile Include="Assets\Gun\Bullet\ParticleLife_SCR.cs" />
      <Compile Include="Assets\Gun\Gun_SCR.cs" />
      <Compile Include="Assets\Player\PlayerMovement_SCR.cs" />
      <Compile Include="Assets\Player\PlayerShooting_SCR.cs" />
