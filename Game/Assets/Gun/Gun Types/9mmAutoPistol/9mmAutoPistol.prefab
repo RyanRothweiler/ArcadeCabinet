@@ -40,6 +40,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPreFab: {fileID: 100000, guid: 94dd42b078d72e949a9478e659b977e9, type: 2}
+  damage: .5
   spread: .5
   automatic: 1
   timeBetweenShots: .100000001

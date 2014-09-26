@@ -6,6 +6,7 @@ public class Bullet_SCR : MonoBehaviour
     /* Publics */
     public float movementSpeed;
     public GameObject bulletExplosion;
+    public float damage;
 
     /* Privates */
 
@@ -23,20 +24,24 @@ public class Bullet_SCR : MonoBehaviour
 	}
 
     // Hitting something
-    void OnCollisionEnter(Collision coll)
+    void OnCollisionEnter2D(Collision2D coll)
     {
-        if (coll.gameObject.tag == "Wall")
+        // Damage what this hit
+        if (coll.gameObject.tag == "Boss")
         {
-            GameObject obj = GameObject.Instantiate(bulletExplosion, coll.contacts[0].point, this.transform.rotation) as GameObject;
-            obj.transform.Rotate(new Vector3(0, 180, 0));
-            Destroy(this.gameObject);
+            coll.gameObject.GetComponent<BossBody_SCR>().TakeDamate(damage);
         }
+
+        GameObject obj = GameObject.Instantiate(bulletExplosion, coll.contacts[0].point, this.transform.rotation) as GameObject;
+        obj.transform.Rotate(new Vector3(90, 0, 0));
+        Destroy(this.gameObject);
     }
 
     // Move the bullet without letting it pass through things
     void MoveBullet()
     {
-        Vector3 newPos = this.transform.position + (this.transform.forward * movementSpeed * Time.deltaTime);
+        Vector3 newPos = this.transform.position + (this.transform.up * movementSpeed * Time.deltaTime);
+
         Ray ray = new Ray(this.transform.position, this.transform.forward);
         RaycastHit hit;
 
@@ -46,7 +51,7 @@ public class Bullet_SCR : MonoBehaviour
         }
         else
         {
-            this.transform.position = this.transform.position + (this.transform.forward * movementSpeed * Time.deltaTime);
+            this.transform.position = newPos;
         }
     }
 }

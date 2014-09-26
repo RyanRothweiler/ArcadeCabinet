@@ -7,6 +7,7 @@ public class Gun_SCR : MonoBehaviour
 	/* Publics */
     public GameObject bulletPreFab;
 
+    public float damage;
     public float spread;
     public bool automatic;
     public float timeBetweenShots;
@@ -25,7 +26,7 @@ public class Gun_SCR : MonoBehaviour
 	
 	void Start () 
 	{
-	
+
 	}
 	
 	void Update () 
@@ -37,19 +38,26 @@ public class Gun_SCR : MonoBehaviour
 	}
 
     // Shoot the gun
-    public void Shoot(Vector3 shootAt)
+    public virtual void Shoot(Vector3 shootAt)
     {
         if (automatic && shootWaitCanShoot)
         {
             // Create bullet
             GameObject obj = GameObject.Instantiate(bulletPreFab, this.transform.position, Quaternion.identity) as GameObject;
+            obj.GetComponent<Bullet_SCR>().damage = damage;
 
             // Add spread
-            Vector3 newDirection = new Vector3(shootAt.x + Random.RandomRange(-spread, spread), shootAt.y + Random.RandomRange(-spread, spread), 0);
-            obj.transform.LookAt(newDirection);
+            Vector3 newPos = new Vector3(shootAt.x + Random.RandomRange(-spread, spread), shootAt.y + Random.RandomRange(-spread, spread), 0);
+            Vector3 dir = newPos - this.transform.parent.position;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            angle -= 90;
+            obj.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+             
 
             // Knock Back
-            this.transform.parent.position = this.transform.position + (this.transform.parent.forward * -1 * knockBack);
+            dir = shootAt - this.transform.parent.position;
+            dir.Normalize();
+            this.transform.parent.position = this.transform.position + (dir * -1 * knockBack);
 
             shootWaitCanShoot = false;
             StartCoroutine(ResetShootWait());
@@ -59,13 +67,19 @@ public class Gun_SCR : MonoBehaviour
         {
             // Create bullet
             GameObject obj = GameObject.Instantiate(bulletPreFab, this.transform.position, Quaternion.identity) as GameObject;
+            obj.GetComponent<Bullet_SCR>().damage = damage;
 
             // Add spread
-            Vector3 newDirection = new Vector3(shootAt.x + Random.RandomRange(-spread, spread), shootAt.y + Random.RandomRange(-spread, spread), 0);
-            obj.transform.LookAt(newDirection);
+            Vector3 newPos = new Vector3(shootAt.x + Random.RandomRange(-spread, spread), shootAt.y + Random.RandomRange(-spread, spread), 0);
+            Vector3 dir = newPos - this.transform.parent.position;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            angle -= 90;
+            obj.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
             // Knock Back
-            this.transform.parent.position = this.transform.position + (this.transform.parent.forward * -1 * knockBack);
+            dir = shootAt - this.transform.parent.position;
+            dir.Normalize();
+            this.transform.parent.position = this.transform.position + (dir * -1 * knockBack);
 
             triggerUp = false;
         }

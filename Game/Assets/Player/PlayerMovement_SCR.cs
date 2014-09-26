@@ -13,6 +13,8 @@ public class PlayerMovement_SCR : MonoBehaviour
     private PlayerTouchControls_SCR pTouchMovement;
     private PlayerShooting_SCR pShooting;
 
+    private bool stunned = false;
+
     private float maxMovementSpeed;
 
 	// Use this for initialization
@@ -28,27 +30,30 @@ public class PlayerMovement_SCR : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
     {
-        // Slower when aiming
-        if (pShooting.aiming)
+        if (!stunned)
         {
-            movementSpeed = maxMovementSpeed / 2.5f;
-        }
-        else
-        {
-            movementSpeed = maxMovementSpeed;
-        }
+            // Slower when aiming
+            if (pShooting.aiming)
+            {
+                movementSpeed = maxMovementSpeed / 2.5f;
+            }
+            else
+            {
+                movementSpeed = maxMovementSpeed;
+            }
 
-        if (god.platform == "Editor")
-        {
-            PointAtMouse();
-            CheckMovement();
+            if (god.platform == "Editor")
+            {
+                PointAtMouse();
+                CheckMovement();
 
-            this.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        }
+                this.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+            }
 
-        if (god.platform == "Ios")
-        {
-            pTouchMovement.CustomUpdate();
+            if (god.platform == "Ios")
+            {
+                pTouchMovement.CustomUpdate();
+            }
         }
 	}
 
@@ -56,8 +61,10 @@ public class PlayerMovement_SCR : MonoBehaviour
     public void PointAtMouse()
     {
         Vector3 worldMousePos = Camera.main.ScreenPointToRay(Input.mousePosition).GetPoint(0);
-        worldMousePos.z = 0;
-        this.transform.LookAt(worldMousePos);
+        Vector3 dir = worldMousePos - this.transform.position;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        angle -= 90;
+        this.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 
     // Move the player around
@@ -65,5 +72,18 @@ public class PlayerMovement_SCR : MonoBehaviour
     {
         Vector3 newPos = new Vector3(this.transform.position.x + (Input.GetAxis("Horizontal") * movementSpeed * Time.deltaTime), this.transform.position.y + (Input.GetAxis("Vertical") * movementSpeed * Time.deltaTime), 0);
         this.transform.position = newPos;
+    }
+
+    // Stuns the player for the given seconds
+    public void Stun(float time)
+    {
+        stunned = true;
+        StartCoroutine(ResetStun(time));
+    }
+
+    IEnumerator ResetStun(float time)
+    {
+        yield return new WaitForSeconds(time);
+        stunned = false;
     }
 }
