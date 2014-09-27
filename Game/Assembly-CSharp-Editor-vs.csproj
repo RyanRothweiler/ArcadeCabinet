@@ -47,9 +47,20 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Editor\BossBody_ES.cs" />
+     <Compile Include="Assets\Editor\Grid_ES.cs" />
      <Compile Include="Assets\Editor\Gun_ES.cs" />
+     <None Include="Assets\Shaders\UnlitAlphaWithFade.shader" />
  <Reference Include="UnityEditor.Graphs">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
+ </Reference>
+ <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
+ <HintPath>G:/Digital Archive/Game Development/ArcadeCabinet/Game/Assets/UnityVS/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
+ </Reference>
+ <Reference Include="SyntaxTree.VisualStudio.Unity.Messaging">
+ <HintPath>G:/Digital Archive/Game Development/ArcadeCabinet/Game/Assets/UnityVS/Editor/SyntaxTree.VisualStudio.Unity.Messaging.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityVS.VersionSpecific">
+ <HintPath>G:/Digital Archive/Game Development/ArcadeCabinet/Game/Assets/UnityVS/Editor/UnityVS.VersionSpecific.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
