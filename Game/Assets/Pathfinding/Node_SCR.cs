@@ -1,15 +1,31 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Node_SCR : MonoBehaviour {
+[System.Serializable]
+public class Node_SCR  
+{
+    /* Publics */
+    public bool walkable;
+    public Rect rectangle;
+    public Color visColor;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    /* Privates */
+
+
+    // Constructor
+    public Node_SCR(bool walkable, Rect rectangle)
+    {
+        this.walkable = walkable;
+        this.rectangle = rectangle;
+
+
+        if (walkable)
+        {
+            visColor = Color.white;
+        }
+        else
+        {
+            visColor = Color.red;
+        }
+    }
 }

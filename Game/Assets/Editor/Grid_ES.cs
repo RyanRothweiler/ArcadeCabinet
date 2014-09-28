@@ -21,7 +21,24 @@ public class Grid_ES : Editor
         }
         else
         {
-            gridScript.gridResolution = EditorGUILayout.FloatField("Resolution of grid", gridScript.gridResolution);
+            gridScript.gridResolution = EditorGUILayout.IntField("Resolution of grid", gridScript.gridResolution);
         }
+
+        // Generate nodes
+        if (GUILayout.Button("Generate Nodes"))
+        {
+            gridScript.GenerateNodes();
+        }
+
+        // Clear nodes
+        if (GUILayout.Button("Clear Nodes"))
+        {
+            gridScript.ClearNodes();
+        }
+
+        // Save all changes
+        EditorUtility.SetDirty(target);
+        EditorUtility.SetDirty(this);
+        EditorUtility.SetDirty(gridScript);
     }
 }
