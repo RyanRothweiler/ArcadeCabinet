@@ -10,8 +10,9 @@ public class God_SCR : MonoBehaviour
     public GameObject heartTwo;
     public GameObject heartThree;
 
+    public GameObject player;
+
     /* Privates */
-    private GameObject player;
 
     // Use this for initialization
     void Start()

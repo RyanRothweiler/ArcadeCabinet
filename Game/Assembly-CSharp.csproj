@@ -56,6 +56,7 @@
      <Compile Include="Assets\Camera\CameraPlayerFollow_SCR.cs" />
      <Compile Include="Assets\Camera\FocalPoint_SCR.cs" />
      <Compile Include="Assets\General Scripts\DamagePlayer_SCR.cs" />
+     <Compile Include="Assets\General Scripts\DeathTimer.cs" />
      <Compile Include="Assets\God\God_SCR.cs" />
      <Compile Include="Assets\Gun\Bullet\Bullet_SCR.cs" />
      <Compile Include="Assets\Gun\Bullet\ParticleLife_SCR.cs" />

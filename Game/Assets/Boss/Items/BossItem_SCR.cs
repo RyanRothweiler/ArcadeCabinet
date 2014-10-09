@@ -16,5 +16,6 @@ public class BossItem_SCR : MonoBehaviour
     }
 
     // Use this item, however it is intended to be used, will be different and unique for every item.
-    public virtual void Use() { }
+    // Also this contains some unique behavior for how the boss should act before and after using this item.
+    public virtual void Use(LowLevelAI_SCR bossBrain) { }
 }

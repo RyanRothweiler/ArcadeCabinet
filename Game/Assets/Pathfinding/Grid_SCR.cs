@@ -6,6 +6,7 @@ public class Grid_SCR : MonoBehaviour
 {
     /* Publics */
     public int gridResolution;
+    public Node_SCR[,] allNodes;
     public List<Node_SCR> openNodes = new List<Node_SCR>();
 
     /* Private */
@@ -14,7 +15,7 @@ public class Grid_SCR : MonoBehaviour
 	// Use this for initialization
 	void Start () 
     {
-	
+        GenerateNodes();
 	}
 	
 	// Update is called once per frame
@@ -27,6 +28,7 @@ public class Grid_SCR : MonoBehaviour
     void OnDrawGizmosSelected()
     {
         // --- Visualize the grid
+
         Gizmos.color = Color.white;
 
         float gridSpace = this.transform.localScale.x / (gridResolution + 1);
@@ -46,67 +48,85 @@ public class Grid_SCR : MonoBehaviour
             Gizmos.DrawLine(topPoint, topPoint - new Vector3(0, this.transform.localScale.y, 0));
         }
 
+
         // --- Visualize the nodes
-        for (var i = 0; i < openNodes.Count; i++)
+
+        if (Application.isPlaying)
         {
-            Gizmos.color = openNodes[i].visColor;
-            Gizmos.DrawCube(openNodes[i].rectangle.center, new Vector3(openNodes[i].rectangle.width / 2, openNodes[i].rectangle.width / 2, openNodes[i].rectangle.width / 2));
+            for (var x = 0; x <= gridResolution; x++)
+            {
+                for (var y = 0; y <= gridResolution; y++)
+                {
+                    Gizmos.color = allNodes[x, y].visColor;
+                    Gizmos.DrawCube(allNodes[x, y].rectangle.center, new Vector3(allNodes[x, y].rectangle.width / 2, allNodes[x, y].rectangle.width / 2, allNodes[x, y].rectangle.width / 2));
+                }
+            }
         }
     }
 
     // Generates new nodes
     public void GenerateNodes()
     {
+        allNodes = new Node_SCR[gridResolution + 1, gridResolution + 1];
         openNodes.Clear();
 
         float gridSpace = this.transform.localScale.x / (gridResolution + 1);
 
         // Create nodes
-        for (var x = 1; x < gridResolution + 2; x++)
+        for (var x = 0; x < gridResolution + 1; x++)
         {
-            for (var y = 1; y < gridResolution + 2; y++)
+            for (var y = 0; y < gridResolution + 1; y++)
             {
-                float rectLeft = (this.transform.position.x + (this.transform.localScale.x / 2)) - (x * (gridSpace));
-                float rectRight = (this.transform.position.y + (this.transform.localScale.y / 2)) - (y * (gridSpace));
-                openNodes.Add(new Node_SCR(true, new Rect(rectLeft, rectRight, gridSpace, gridSpace)));
+                float rectLeft = (this.transform.position.x + (this.transform.localScale.x / 2)) - ((x + 1) * (gridSpace));
+                float rectRight = (this.transform.position.y + (this.transform.localScale.y / 2)) - ((y + 1) * (gridSpace));
+                allNodes[x,y] = new Node_SCR(true, new Rect(rectLeft, rectRight, gridSpace, gridSpace), x, y);
             }
         }
 
 
         // Mark the not walkable ones
-        for (var i = 0; i < openNodes.Count; i++)
+        for (var x = 0; x <= gridResolution; x++)
         {
-            Rect nodeRect = openNodes[i].rectangle;
-            if (Physics2D.Linecast(nodeRect.center, new Vector3(nodeRect.x, nodeRect.y, 0), 1 << 11))
+            for (var y = 0; y <= gridResolution; y++)
             {
-                openNodes[i].walkable = false;
-                openNodes[i].visColor = Color.red;
-            }
-            if (Physics2D.Linecast(nodeRect.center, new Vector3(nodeRect.xMax, nodeRect.yMax, 0), 1 << 11))
-            {
-                openNodes[i].walkable = false;
-                openNodes[i].visColor = Color.red;
-            }
-            if (Physics2D.Linecast(nodeRect.center, new Vector3(nodeRect.x, nodeRect.yMax, 0), 1 << 11))
-            {
-                openNodes[i].walkable = false;
-                openNodes[i].visColor = Color.red;
-            }
-            if (Physics2D.Linecast(nodeRect.center, new Vector3(nodeRect.xMax, nodeRect.y, 0), 1 << 11))
-            {
-                openNodes[i].walkable = false;
-                openNodes[i].visColor = Color.red;
+                Rect nodeRect = allNodes[x, y].rectangle;
+                if (Physics2D.Linecast(nodeRect.center, new Vector3(nodeRect.x, nodeRect.y, 0), 1 << 11))
+                {
+                    allNodes[x, y].walkable = false;
+                    allNodes[x, y].visColor = Color.red;
+                }
+                if (Physics2D.Linecast(nodeRect.center, new Vector3(nodeRect.xMax, nodeRect.yMax, 0), 1 << 11))
+                {
+                    allNodes[x, y].walkable = false;
+                    allNodes[x, y].visColor = Color.red;
+                }
+                if (Physics2D.Linecast(nodeRect.center, new Vector3(nodeRect.x, nodeRect.yMax, 0), 1 << 11))
+                {
+                    allNodes[x, y].walkable = false;
+                    allNodes[x, y].visColor = Color.red;
+                }
+                if (Physics2D.Linecast(nodeRect.center, new Vector3(nodeRect.xMax, nodeRect.y, 0), 1 << 11))
+                {
+                    allNodes[x, y].walkable = false;
+                    allNodes[x, y].visColor = Color.red;
+                }
             }
         }
-
 
         Debug.Log("Nodes Generated");
     }
 
-    // Removes all nodes
-    public void ClearNodes()
+    // Get things ready to generate another path
+    public void ResetForRegeneration()
     {
         openNodes.Clear();
-        Debug.Log("Nodes Cleared");
+
+        for (var x = 0; x <= gridResolution; x++)
+        {
+            for (var y = 0; y <= gridResolution; y++)
+            {
+                allNodes[x, y].Reinitialize();
+            }
+        }
     }
 }

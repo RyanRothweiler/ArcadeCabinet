@@ -32,6 +32,8 @@ public class BossBody_ES : Editor
 
             bossScript.currHealth = EditorGUILayout.FloatField("Current Health", bossScript.currHealth);
             bossScript.maxHealth = EditorGUILayout.FloatField("Max Health", bossScript.maxHealth);
+
+            bossScript.movementSpeed = EditorGUILayout.FloatField("Movement Speed", bossScript.movementSpeed);
         }
 
         // Save all changes

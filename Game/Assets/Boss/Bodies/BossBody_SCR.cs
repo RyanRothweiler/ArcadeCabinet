@@ -10,9 +10,12 @@ public class BossBody_SCR : MonoBehaviour
     public float maxHealth;
     public List<BossItem_SCR> hands = new List<BossItem_SCR>();
     public GameObject healthBar;
+
+    public bool takingDamage;
+
+    public float movementSpeed;
 	
 	/* Privates */
-
     private bool canUse = true;
 
     // Constructor
@@ -32,26 +35,19 @@ public class BossBody_SCR : MonoBehaviour
     public void Update()
     {
         UpdateHealth();
-
-        // testing
-        if (canUse)
-        {
-            canUse = false;
-            hands[1].Use();
-            StartCoroutine(UseReset());
-        }
-
-    }
-
-    IEnumerator UseReset()
-    {
-        yield return new WaitForSeconds(0);
-        canUse = true;
     }
 
     public void TakeDamate(float amount)
     {
         currHealth -= amount;
+        takingDamage = true;
+        StartCoroutine(ResetTakingDamage());
+    }
+
+    IEnumerator ResetTakingDamage()
+    {
+        yield return new WaitForSeconds(0.5f);
+        takingDamage = false;
     }
 
     void UpdateHealth()
