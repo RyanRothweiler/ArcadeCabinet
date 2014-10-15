@@ -22,10 +22,48 @@ public class ShieldItem_SCR : BossItem_SCR
     // Slams the shield on the grould stunning and damaging the player
     public override void Use(LowLevelAI_SCR bossBrain)
     {
-        StartCoroutine(actualUse(bossBrain));
+        StartCoroutine(telegraph(bossBrain));
+    }
+    // Telegraph that we're using this item before using it
+    private IEnumerator telegraph(LowLevelAI_SCR lowBrain)
+    {
+        // Scale up
+        Vector3 orig = this.transform.localScale;
+        Vector3 target = this.transform.localScale * 2;
+        bool going = true;
+        while (going)
+        {
+            yield return new WaitForFixedUpdate();
+
+            this.transform.localScale = Vector3.Lerp(this.transform.localScale, target, Time.deltaTime * 10);
+
+            if ((this.transform.localScale.x) > target.x - 0.1)
+            {
+                going = false;
+            }
+        }
+
+        // Scale down
+        going = true;
+        while (going)
+        {
+            yield return new WaitForFixedUpdate();
+
+            this.transform.localScale = Vector3.Lerp(this.transform.localScale, orig, Time.deltaTime * 10);
+
+            if ((this.transform.localScale.x) < orig.x + 0.1)
+            {
+                going = false;
+            }
+        }
+
+        StartCoroutine(actualUse(lowBrain));
+        yield return new WaitForSeconds(0);
     }
     private IEnumerator actualUse(LowLevelAI_SCR bossBrain)
     {
+        beingUsed = true;
+
         bool looking = true;
         int lookingCount = 0;
         while (looking)
@@ -59,6 +97,7 @@ public class ShieldItem_SCR : BossItem_SCR
         }
 
         // Make new decision
+        beingUsed = false;
         this.transform.parent.GetComponent<HighLevelAI_SCR>().makeDecision = true;
     }
 }

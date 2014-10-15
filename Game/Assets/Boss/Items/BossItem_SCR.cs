@@ -5,7 +5,7 @@ public class BossItem_SCR : MonoBehaviour
 {
 
 	/* Publics */
-
+    public bool beingUsed;
 	
 	/* Privates */
 

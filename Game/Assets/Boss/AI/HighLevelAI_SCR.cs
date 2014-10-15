@@ -33,11 +33,24 @@ public class HighLevelAI_SCR : MonoBehaviour
 
     public void MakeDecision()
     {
-        makeDecision = false;
+        // Make sure none of the hands are doing something 
+        bool itemBeingUsed = false;
+        foreach (BossItem_SCR item in body.hands)
+        {
+            if (item.beingUsed)
+            {
+                itemBeingUsed = true;
+            }
+        }
 
-        // Choose an item at random to use
-        int useIndex = Random.Range(0, body.hands.Count);
-        body.hands[useIndex].Use(lowBrain);
-        Debug.Log("Using " + body.hands[useIndex].name);
+        if (!itemBeingUsed)
+        {
+            makeDecision = false;
+
+            // Choose an item at random to use
+            int useIndex = Random.Range(0, body.hands.Count);
+            body.hands[useIndex].Use(lowBrain);
+            Debug.Log("-------------------------------------Decision made.....Using " + body.hands[useIndex].name);
+        }
     }
 }

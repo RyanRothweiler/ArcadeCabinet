@@ -66,7 +66,11 @@
      <Compile Include="Assets\Pathfinding\Grid_SCR.cs" />
      <Compile Include="Assets\Pathfinding\Node_SCR.cs" />
      <Compile Include="Assets\Pathfinding\Pathfinder_SCR.cs" />
+     <Compile Include="Assets\Player\Items\PlayerItem.cs" />
+     <Compile Include="Assets\Player\Items\Trap\PlayerItemTrap.cs" />
+     <Compile Include="Assets\Player\Items\Trap\TrapItem.cs" />
      <Compile Include="Assets\Player\PlayerHealth_SCR.cs" />
+     <Compile Include="Assets\Player\PlayerItemControls.cs" />
      <Compile Include="Assets\Player\PlayerMovement_SCR.cs" />
      <Compile Include="Assets\Player\PlayerShooting_SCR.cs" />
      <Compile Include="Assets\Player\PlayerTouchControls_SCR.cs" />

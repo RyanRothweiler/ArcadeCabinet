@@ -9,6 +9,7 @@ public class BossBody_SCR : MonoBehaviour
     public float currHealth;
     public float maxHealth;
     public List<BossItem_SCR> hands = new List<BossItem_SCR>();
+    public List<BossItem_SCR> passives = new List<BossItem_SCR>(); // This implementation needs to be added, passive items that are always on and doing something. Are used consistently.
     public GameObject healthBar;
 
     public bool takingDamage;

@@ -24,11 +24,50 @@ public class LaserItem_SCR : BossItem_SCR
 
     public override void Use(LowLevelAI_SCR lowBrain)
     {
+        StartCoroutine(telegraph(lowBrain));
+    }
+
+    // Telegraph that we're using this item before using it
+    private IEnumerator telegraph(LowLevelAI_SCR lowBrain)
+    {
+        // Scale up
+        Vector3 orig = this.transform.localScale;
+        Vector3 target = this.transform.localScale * 2;
+        bool going = true;
+        while (going)
+        {
+            yield return new WaitForFixedUpdate();
+
+            this.transform.localScale = Vector3.Lerp(this.transform.localScale, target, Time.deltaTime * 10);
+            
+            if ((this.transform.localScale.x) > target.x - 0.1)
+            {
+                going = false;
+            }
+        }
+
+        // Scale down
+        going = true;
+        while (going)
+        {
+            yield return new WaitForFixedUpdate();
+
+            this.transform.localScale = Vector3.Lerp(this.transform.localScale, orig, Time.deltaTime * 10);
+
+            if ((this.transform.localScale.x) < orig.x + 0.1)
+            {
+                going = false;
+            }
+        }
+
         StartCoroutine(actualUse(lowBrain));
+        yield return new WaitForSeconds(0);
     }
 
     private IEnumerator actualUse(LowLevelAI_SCR lowBrain)
     {
+        beingUsed = true;
+
         // Try to get in line of sight
         bool looking = true;
         int lookingCount = 0;
@@ -64,6 +103,11 @@ public class LaserItem_SCR : BossItem_SCR
             }
         }
 
+        if (!shooting)
+        {
+            beingUsed = false;
+        }
+
         this.transform.parent.GetComponent<HighLevelAI_SCR>().makeDecision = true;
     }
 
@@ -83,13 +127,13 @@ public class LaserItem_SCR : BossItem_SCR
         float hitDist = Vector3.Distance(this.transform.position, hit.point);
 
         laserSight.SetActive(true);
-        laserSight.transform.localScale = new Vector3(1, hitDist/2.6f, 1);
+        laserSight.transform.localScale = new Vector3(1, hitDist / (transform.localScale.x), 1);
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
 
         laserSight.SetActive(false);
         laserLaser.SetActive(true);
-        laserLaser.transform.localScale = new Vector3(1, hitDist / 2.6f, 1);
+        laserLaser.transform.localScale = new Vector3(1, hitDist / (transform.localScale.x), 1);
 
         yield return new WaitForSeconds(1);
 
@@ -98,5 +142,6 @@ public class LaserItem_SCR : BossItem_SCR
 
         shooting = false;
 
+        beingUsed = false;
     }
 }
